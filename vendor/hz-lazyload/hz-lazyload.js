@@ -1,4 +1,4 @@
-// 增加： 监听容器大小改变
+// 增加： 监听容器大小改变  增加传入失败图片
 // -------------类要在调用之前引入---------------
 // HzLazyLoad构造函数   selector：使用lazyload的img上的class   option:自定义配置{placeholder,container,distance}
 let HzLazyLoad = window.HzLazyLoad = (function() {
@@ -71,8 +71,6 @@ let HzLazyLoad = window.HzLazyLoad = (function() {
             let userClass = this.filterUserClass(el.className.split(' '), this.selector);
             el.className = 'lazy-load-pending ' + userClass; // 将图片的样式设置为pending
 
-            // 这段其实也可以放在下面解决节流函数bug的地方，这样即使图片不在可视区也会直接变成loading态，不过如果滑的很快，会让用户以为一直在加载
-            el.style.background = 'url(' + this.placeholderUrl + ') center center no-repeat'; // 图片改为背景图
             // el.style.backgroundSize = '100px';
             this._loadImageAsync(urlTemp, el).then(function(data) {
                 console.log(data);
@@ -96,7 +94,7 @@ let HzLazyLoad = window.HzLazyLoad = (function() {
 
                 // 将图片的样式置为fail
                 el.className = 'lazy-load-fail ' + userClass; // 加载成功后将class设置为fail
-                el.src = './fail.png'; // 加载失败图片
+                el.src = './images/fail.png'; // 加载失败图片
             });
         }
         return this;
@@ -171,6 +169,7 @@ let HzLazyLoad = window.HzLazyLoad = (function() {
 
             // 节流函数会引发一个bug，如果一直滚动的时候，图片会出现灰色边框，目前思路是一开始就给所有元素的src都设置为那张1像素的图片，放在这里的原因是第一次一定会执行这个方法
             el.src = this._opacity1px; // 因为如果没有图片，src有宽度和高度時，浏览器会出现边框，所以这里默认给src一个1px的透明图替代，解决边框问题，
+            el.style.background = 'url(' + this.placeholderUrl + ') center center no-repeat'; // 图片改为背景图
         }
 
         let currentTop = el.getBoundingClientRect().top - this._container.getBoundingClientRect().top; // 这里减去自身偏移的值和容器偏移的值才是真正的位置
