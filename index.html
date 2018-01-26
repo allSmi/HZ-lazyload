@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>demo</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        div {
+            box-sizing: border-box;
+        }
+
+        .container {
+            height: 100%;
+            overflow-y: scroll
+        }
+
+        .p-img {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 200px;
+        }
+
+        .p-img img {
+            /* width: 10px;
+            height: 10px; */
+            border: none;
+            border: 1px solid red;
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        .none {
+            display: none;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container" onscroll="watchScroll()">
+        <div class="p-img">
+            <img class="lazy-load" data-src="http://f.hiphotos.baidu.com/image/pic/item/503d269759ee3d6db032f61b48166d224e4ade6e.jpg" />
+        </div>
+        <div class="p-img">
+            <img class="lazy-load" data-src="http://a.hiphotos.baidu.com/image/pic/item/500fd9f9d72a6059f550a1832334349b023bbae3.jpg" />
+        </div>
+        <div class="p-img">
+            <img class="lazy-load" data-src="http://a.hiphotos.baidu.com/image/pic/item/d6ca7bcb0a46f21f46612acbfd246b600d33aed5.jpg" />
+        </div>
+        <div class="p-img">
+            <img class="lazy-load" data-src="http://d.hiphotos.baidu.com/image/pic/item/a044ad345982b2b713b5ad7d3aadcbef76099b65.jpg" />
+        </div>
+        <div class="p-img">
+            <img class="lazy-load" data-src="http://e.hiphotos.baidu.com/image/pic/item/500fd9f9d72a6059099ccd5a2334349b023bbae5.jpg" />
+        </div>
+    </div>
+
+    <button id="button" onclick="addImage()">增加图片</button>
+    <script src="./vendor/hz-lazyload/hz-lazyload.js"></script>
+    <script>
+        let srcList = ['http://c.hiphotos.baidu.com/zhidao/pic/item/d50735fae6cd7b8964afe8f10c2442a7d8330e85.jpg', 'http://img5.niutuku.com/phone/1212/3752/3752-niutuku.com-22310.jpg', 'http://cdn.duitang.com/uploads/item/201504/19/20150419H0823_WSGAM.jpeg', 'http://img0.imgtn.bdimg.com/it/u=1363910025,3482458907&fm=214&gp=0.jpg', 'http://i2.hdslb.com/bfs/archive/95e5351273b72b587d929c7593fb6ffd66cb220a.jpg']
+        let button = document.getElementById('button');
+        // document.getElementsByClassName('container')[0].onscroll = function() {
+        //     console.log('用户自定义的scroll事件');
+        // }
+
+        // 创建lazyload实例
+        let lazyload = new HzLazyLoad({
+            id: 'lazy-load',
+            container: 'container',
+            distance: '100',
+            placeholder: './images/loading.gif'
+        });
+        lazyload.render();
+
+        function addImage() {
+            document.getElementById('button').style.display = 'none';
+            for (let i = 0; i < srcList.length; i++) {
+                let div = document.createElement('div');
+                div.className = 'p-img';
+                let img = document.createElement('img');
+                img.className = 'lazy-load';
+                img.setAttribute('data-src', srcList[i]);
+                div.appendChild(img);
+                // document.getElementsByClassName('container')[0].insertBefore(div, button);
+                document.getElementsByClassName('container')[0].appendChild(div);
+            }
+            lazyload.render();
+        }
+
+        function watchScroll() {
+            // console.log('用户自定义的scroll事件');
+        }
+
+    </script>
+</body>
+
+</html>
