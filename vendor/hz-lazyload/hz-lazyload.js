@@ -1,4 +1,4 @@
-// 增加： 监听容器大小改变  增加传入失败图片
+// 增加： 当容器大小大于浏览器可视区大小時，要比较图片位置和可视区位置的关系
 // -------------类要在调用之前引入---------------
 // HzLazyLoad构造函数   selector：使用lazyload的img上的class   option:自定义配置{placeholder,container,distance}
 let HzLazyLoad = window.HzLazyLoad = (function() {
@@ -175,6 +175,7 @@ let HzLazyLoad = window.HzLazyLoad = (function() {
 
         let currentTop = el.getBoundingClientRect().top - this._container.getBoundingClientRect().top; // 这里减去自身偏移的值和容器偏移的值才是真正的位置
         let currentBottom = el.getBoundingClientRect().bottom - this._container.getBoundingClientRect().top; // 这里加上自身偏移的值减去容器偏移的值才是真正的位置
+        console.log(this._container.clientHeight, currentTop)
         // 图片顶部或者底部在可视区
         return (this._container.clientHeight > currentTop - this._distance) && currentBottom > 0;
     }
